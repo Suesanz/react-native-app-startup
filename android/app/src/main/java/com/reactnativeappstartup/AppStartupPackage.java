@@ -14,6 +14,7 @@ import java.util.List;
 
 public class AppStartupPackage implements ReactPackage {
   public AppStartupPackage() {
+    AppStartupModule.setupListener();
   }
 
   @Override
