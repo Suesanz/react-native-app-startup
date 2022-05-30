@@ -20,7 +20,6 @@ import java.util.concurrent.TimeUnit;
 public class AppStartupProvider extends ContentProvider implements ActivityLifecycleCallbacks {
 
   private static final long APP_START_TIME = TimeUnit.MILLISECONDS.toMicros(System.currentTimeMillis());
-  private static final long MAX_LATENCY_BEFORE_UI_INIT = TimeUnit.MINUTES.toMicros(1);
 
   private Context appContext;
   private static long appStartTime;
@@ -85,10 +84,6 @@ public class AppStartupProvider extends ContentProvider implements ActivityLifec
     setColdStart(savedInstanceState);
 
     firstActivityCreated = true;
-   if (TimeUnit.MILLISECONDS.toMicros(onCreateTime)
-     > MAX_LATENCY_BEFORE_UI_INIT) {
-     isTooLateToInitUI = true;
-   }
   }
 
   @Override
