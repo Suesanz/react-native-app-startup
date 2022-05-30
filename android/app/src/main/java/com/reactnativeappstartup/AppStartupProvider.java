@@ -40,8 +40,12 @@ public class AppStartupProvider extends ContentProvider implements ActivityLifec
    */
   private boolean isTooLateToInitUI = false;
 
-  public static long getAppStartupTime() {
+  public static long getNativeAppStartupTime() {
     return (onResumeTime - appStartTime);
+  }
+
+  public static long getAppStartupTime() {
+    return appStartTime;
   }
 
   private void setColdStart(final @Nullable Bundle savedInstanceState) {

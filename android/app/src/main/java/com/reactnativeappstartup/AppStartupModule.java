@@ -18,6 +18,7 @@ import com.facebook.react.modules.core.DeviceEventManagerModule;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 public class AppStartupModule extends ReactContextBaseJavaModule {
   public static final String BRIDGE_SETUP_START = "bridgeSetupStart";
@@ -40,8 +41,12 @@ public class AppStartupModule extends ReactContextBaseJavaModule {
   @ReactMethod
   public void getAppStartupTime(Promise promise) {
     WritableMap appStart = Arguments.createMap();
-    appStart.putDouble("startupTime", AppStartupProvider.getAppStartupTime());
-    appStart.putBoolean("isColdStart", AppStartupProvider.isColdStart());
+    long now = TimeUnit.MILLISECONDS.toMicros(System.currentTimeMillis());
+    long totalStartupTime = now - AppStartupProvider.getAppStartupTime();
+
+    appStart.putDouble("nativeAppStartupTime", AppStartupProvider.getNativeAppStartupTime());
+    appStart.putDouble("totalStartupTime", totalStartupTime);
+    appStart.putBoolean("isColdStart", !didFetchAppStart && AppStartupProvider.isColdStart());
     appStart.putBoolean("didFetchAppStart", didFetchAppStart);
     promise.resolve(appStart);
 
